@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const UserInput = () => {
   const navigate = useNavigate();
@@ -9,6 +10,8 @@ const UserInput = () => {
     pan: "",
     dob: "",
   });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
@@ -20,10 +23,40 @@ const UserInput = () => {
     }
   }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("User Input Submitted:", formData);
-    navigate("/dashboard");
+    setLoading(true);
+    setError("");
+
+    try {
+      // Request to our backend instead of Equifax directly
+      const response = await axios.post(
+        "http://localhost:3001/api/equifax/credit-score", // Backend API route
+        {
+          name: formData.name,
+          mobile: formData.mobile,
+          pan: formData.pan,
+          dob: formData.dob,
+        }
+      );
+
+      console.log("Credit Score Response:", response.data);
+
+      // Store credit score in local storage
+      localStorage.setItem("creditScore", JSON.stringify(response.data));
+
+      // Redirect to dashboard
+      navigate("/dashboard");
+    } catch (error) {
+      console.error("Error fetching credit score:", error);
+      if (error.response) {
+        setError(`Error: ${error.response.data.message || "Failed to fetch credit score"}`);
+      } else {
+        setError("Network error. Please try again.");
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleChange = (e) => {
@@ -42,7 +75,6 @@ const UserInput = () => {
         </h2>
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Pre-filled fields */}
           <div className="space-y-4">
             <div className="relative">
               <label className="text-white text-sm font-medium mb-1 block">Full Name</label>
@@ -55,7 +87,6 @@ const UserInput = () => {
             </div>
           </div>
 
-          {/* User input fields */}
           <div className="space-y-4">
             <div className="relative">
               <label className="text-white text-sm font-medium mb-1 block">Mobile No</label>
@@ -96,11 +127,14 @@ const UserInput = () => {
             </div>
           </div>
 
+          {error && <p className="text-red-400 text-center">{error}</p>}
+
           <button
             type="submit"
             className="w-full bg-white text-blue-700 font-bold p-4 rounded-xl shadow-lg hover:bg-blue-600 hover:text-white transition-all duration-300 transform hover:scale-105 mt-8 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue-700"
+            disabled={loading}
           >
-            Proceed
+            {loading ? "Checking..." : "Proceed"}
           </button>
         </form>
       </div>
