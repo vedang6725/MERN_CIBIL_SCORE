@@ -7,9 +7,10 @@ import {
 import { useState, useEffect } from "react";
 import Login from "./pages/auth/login";
 import Signup from "./pages/auth/register";
-import Dashboard from "./pages/auth/Dashboard";
 import UserInput from "./pages/auth/UserInput";
-import AdminPanel from "./pages/auth/AdminPanel";
+import Dashboard from "./components/user-view/dashboard";
+import AdminPanel from "./components/admin-view/AdminPanel";
+import LoanInformation from "./components/user-view/LoanInformation";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(
@@ -31,6 +32,7 @@ function App() {
         <Route path="/login" element={<Login updateAuth={updateAuth} />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/userinput" element={<UserInput />} />
+        <Route path="/loan" element={<LoanInformation />} />
         <Route path="/admin " element={<AdminPanel />} />
         {/* Protected Dashboard Route */}
         <Route

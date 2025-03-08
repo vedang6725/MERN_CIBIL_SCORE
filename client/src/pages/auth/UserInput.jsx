@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 
 const UserInput = () => {
   const navigate = useNavigate();
@@ -10,7 +9,6 @@ const UserInput = () => {
     pan: "",
     dob: "",
   });
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -23,40 +21,15 @@ const UserInput = () => {
     }
   }, []);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    setLoading(true);
     setError("");
-
-    try {
-      // Request to our backend instead of Equifax directly
-      const response = await axios.post(
-        "http://localhost:3001/api/equifax/credit-score", // Backend API route
-        {
-          name: formData.name,
-          mobile: formData.mobile,
-          pan: formData.pan,
-          dob: formData.dob,
-        }
-      );
-
-      console.log("Credit Score Response:", response.data);
-
-      // Store credit score in local storage
-      localStorage.setItem("creditScore", JSON.stringify(response.data));
-
-      // Redirect to dashboard
-      navigate("/dashboard");
-    } catch (error) {
-      console.error("Error fetching credit score:", error);
-      if (error.response) {
-        setError(`Error: ${error.response.data.message || "Failed to fetch credit score"}`);
-      } else {
-        setError("Network error. Please try again.");
-      }
-    } finally {
-      setLoading(false);
-    }
+    
+    // Store data in localStorage (optional for future use)
+    localStorage.setItem("userInput", JSON.stringify(formData));
+    
+    // Navigate to dashboard
+    navigate("/loan");
   };
 
   const handleChange = (e) => {
@@ -132,9 +105,8 @@ const UserInput = () => {
           <button
             type="submit"
             className="w-full bg-white text-blue-700 font-bold p-4 rounded-xl shadow-lg hover:bg-blue-600 hover:text-white transition-all duration-300 transform hover:scale-105 mt-8 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue-700"
-            disabled={loading}
           >
-            {loading ? "Checking..." : "Proceed"}
+            Proceed
           </button>
         </form>
       </div>
