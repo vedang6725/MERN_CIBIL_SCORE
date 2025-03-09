@@ -3,7 +3,8 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cors from "cors";
 import authRoutes from "./routes/authroutes.js";
-import equifaxRoutes from "./routes/equifaxRoutes.js"; // Import Equifax route
+import profileRoutes from "./routes/profileRoutes.js";
+
 
 dotenv.config();
 
@@ -22,7 +23,7 @@ mongoose
 
 // Routes
 app.use("/user", authRoutes);
-app.use("/api/equifax", equifaxRoutes); // New API route
+app.use("/profile", profileRoutes); // Use Profile Routes
 
 // Start Server
 app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
