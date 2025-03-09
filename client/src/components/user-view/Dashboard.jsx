@@ -81,7 +81,7 @@ const Dashboard = ({ updateAuth }) => {
                   : "text-gray-500 hover:text-gray-700"
               }`}
             >
-              Account Settings
+              Profile update
             </button>
             <button
               onClick={() => setActiveTab("billing")}
@@ -119,9 +119,9 @@ const Overview = ({ user }) => {
   // Get credit score description
   const getCreditScoreDescription = (score) => {
     if (score === 0) return "No Credit History";
-    if (score < 600) return "Poor";
-    if (score < 650) return "Fair";
-    if (score < 750) return "Good";
+    if (500 <= 600) return "Poor";
+    if (600 <= 650) return "Poor";
+    if (650 <= 750) return " Very Good";
     return "Excellent";
   };
 
