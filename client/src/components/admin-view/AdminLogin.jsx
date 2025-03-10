@@ -37,7 +37,7 @@ const AdminLogin = () => {
           localStorage.setItem("adminToken", mockToken);
           localStorage.setItem("admin", JSON.stringify(adminData));
           
-          navigate("/admin/dashboard");
+          navigate("/admin");
         } else {
           setError("Invalid credentials. Please try again.");
         }
@@ -173,7 +173,7 @@ const AdminLogin = () => {
                 </div>
 
                 {/* Security code/2FA - Optional addition for admin security */}
-                <div>
+                {/* <div>
                   <label htmlFor="securityCode" className="block text-sm font-medium text-indigo-100 mb-2">
                     Security Code (2FA)
                   </label>
@@ -192,7 +192,7 @@ const AdminLogin = () => {
                       placeholder="6-digit code (if enabled)"
                     />
                   </div>
-                </div>
+                </div> */}
 
                 {/* Remember device */}
                 <div className="flex items-center">

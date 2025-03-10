@@ -34,8 +34,8 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/userinput" element={<UserInput />} />
         <Route path="/loan" element={<LoanInformation />} />
-        <Route path="/admin " element={<AdminPanel />} />
-        <Route path="/admin-login " element={<AdminLogin />} />
+        <Route path="/admin" element={<AdminPanel />} />
+        <Route path="/admin-login" element={<AdminLogin />} />
         {/* Protected Dashboard Route */}
         <Route
           path="/dashboard"
@@ -51,7 +51,9 @@ function App() {
         {/* Admin Panel Route - Fixed path and added authentication */}
         <Route
           path="/admin"
-          element={isAuthenticated ? <AdminPanel /> : <Navigate to="/admin-login" />}
+          element={
+            isAuthenticated ? <AdminPanel /> : <Navigate to="/admin-login" />
+          }
         />
 
         {/* 404 Not Found Page */}
