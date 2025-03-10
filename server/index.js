@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import authRoutes from "./routes/authroutes.js";
 import profileRoutes from "./routes/profileRoutes.js";
-
+import dashboardRoutes from "./routes/dashboardRoutes.js"; // ✅ Import new route
 
 dotenv.config();
 
@@ -23,7 +23,8 @@ mongoose
 
 // Routes
 app.use("/user", authRoutes);
-app.use("/profile", profileRoutes); // Use Profile Routes
+app.use("/profile", profileRoutes);
+app.use("/dashboard", dashboardRoutes); // ✅ Add dashboard routes
 
 // Start Server
 app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
