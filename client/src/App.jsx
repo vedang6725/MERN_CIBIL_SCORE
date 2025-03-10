@@ -11,6 +11,7 @@ import UserInput from "./pages/auth/UserInput";
 import Dashboard from "./components/user-view/dashboard";
 import AdminPanel from "./components/admin-view/AdminPanel";
 import LoanInformation from "./components/user-view/LoanInformation";
+import AdminLogin from "./components/admin-view/AdminLogin";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(
@@ -34,6 +35,7 @@ function App() {
         <Route path="/userinput" element={<UserInput />} />
         <Route path="/loan" element={<LoanInformation />} />
         <Route path="/admin " element={<AdminPanel />} />
+        <Route path="/admin-login " element={<AdminLogin />} />
         {/* Protected Dashboard Route */}
         <Route
           path="/dashboard"

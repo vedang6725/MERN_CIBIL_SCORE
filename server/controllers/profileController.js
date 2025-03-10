@@ -3,7 +3,7 @@ import Profile from "../models/profilemodel.js";
 // Update or Create User Profile
 export const updateUserProfile = async (req, res) => {
   try {
-    const { email, name, phoneNumber, pan, aadhar, dob } = req.body;
+    const { email, name, phoneNumber, pan, aadhar, dob, state, address, city, pincode } = req.body;
 
     let user = await Profile.findOne({ email }); // Check if user exists
 
@@ -14,10 +14,15 @@ export const updateUserProfile = async (req, res) => {
       user.pan = pan;
       user.aadhar = aadhar;
       user.dob = dob;
+      user.state = state;
+      user.address = address;
+      user.city = city;
+      user.pincode = pincode;
+
       await user.save();
     } else {
       // Create new profile if not exists
-      user = new Profile({ email, name, phoneNumber, pan, aadhar, dob });
+      user = new Profile({ email, name, phoneNumber, pan, aadhar, dob, state, address, city, pincode });
       await user.save();
     }
 
