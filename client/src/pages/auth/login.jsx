@@ -207,8 +207,21 @@ const Login = ({ updateAuth }) => {
                 </div>
               </form>
 
-              {/* Signup link */}
+              
+              
+            
+              {/* AdminLogin Link */}
+              
               <div className="mt-8 text-center">
+              <p className="text-sm text-indigo-200">
+                  Are you an Admin?{" "}
+                  <Link to="/admin-login" className="font-medium text-indigo-400 hover:text-white transition-colors duration-200">
+                    Go To Admin Login
+                  </Link>
+                </p>
+
+                {/* Signup link */}
+
                 <p className="text-sm text-indigo-200">
                   Don't have an account?{" "}
                   <Link to="/signup" className="font-medium text-indigo-400 hover:text-white transition-colors duration-200">
