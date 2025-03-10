@@ -51,7 +51,7 @@ function App() {
         {/* Admin Panel Route - Fixed path and added authentication */}
         <Route
           path="/admin"
-          element={isAuthenticated ? <AdminPanel /> : <Navigate to="/login" />}
+          element={isAuthenticated ? <AdminPanel /> : <Navigate to="/admin-login" />}
         />
 
         {/* 404 Not Found Page */}
