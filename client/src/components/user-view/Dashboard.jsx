@@ -4,6 +4,7 @@ import Header from "./Header";
 import Footer from "./Footer";
 import AccountSettings from "./AccountSettings";
 import SubscriptionBilling from "./SubscriptionBilling";
+import ServiceCatalogs from "./ServiceCatalogs";
 
 const Dashboard = ({ updateAuth }) => {
   const navigate = useNavigate();
@@ -93,12 +94,26 @@ const Dashboard = ({ updateAuth }) => {
             >
               Subscription & Billing
             </button>
+
+            <button
+              onClick={() => setActiveTab("service")}
+              className={`pb-4 font-medium cursor-pointer text-sm transition-all duration-200 ${
+                activeTab === "service"
+                  ? "text-indigo-600 border-b-2 border-indigo-600"
+                  : "text-slate-500 hover:text-slate-700"
+              }`}
+            >
+              Service Catalogs
+            </button>
           </div>
         </div>
+
+        
 
         {activeTab === "overview" && <Overview user={user} />}
         {activeTab === "account" && <AccountSettings user={user} />}
         {activeTab === "billing" && <SubscriptionBilling user={user} />}
+        {activeTab === "service" && <ServiceCatalogs user={user} />}
       </main>
 
       {/* Footer */}
