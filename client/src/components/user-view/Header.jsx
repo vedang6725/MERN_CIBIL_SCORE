@@ -1,4 +1,5 @@
 import React from "react";
+import NotificationBell from "./NotificationBell";
 
 const Header = ({ user, handleLogout }) => {
   return (
@@ -10,17 +11,20 @@ const Header = ({ user, handleLogout }) => {
             <div className="bg-gradient-to-br from-blue-600 to-indigo-700 text-white h-10 w-10 rounded-xl flex items-center justify-center text-xl font-bold shadow-lg shadow-blue-200">
               C
             </div>
-            <h1 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-700 to-indigo-800">CreditBoost</h1>
+            <h1 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-700 to-indigo-800">
+              CreditBoost
+            </h1>
           </div>
-          
+
           {/* Right side elements */}
           <div className="flex items-center space-x-6">
+            <NotificationBell/>
             {/* User greeting - visible on medium screens and up */}
             <div className="hidden md:flex items-center">
               <span className="text-gray-500 mr-1">Welcome,</span>
               <span className="font-semibold text-gray-800">{user.name}</span>
             </div>
-            
+
             {/* User Avatar */}
             <div className="relative group">
               <div className="h-10 w-10 rounded-full bg-gradient-to-br from-blue-500 to-indigo-700 flex items-center justify-center text-white font-semibold cursor-pointer shadow-md hover:shadow-lg transition-all duration-200">
@@ -28,13 +32,15 @@ const Header = ({ user, handleLogout }) => {
               </div>
               <div className="absolute -bottom-1 -right-1 h-3 w-3 bg-green-500 rounded-full border-2 border-white"></div>
             </div>
-            
+
             {/* Logout Button */}
             <button
               onClick={handleLogout}
               className="text-gray-500 hover:text-blue-700 transition-colors duration-200 flex items-center space-x-2 group"
             >
-              <span className="hidden sm:inline text-sm font-medium group-hover:text-blue-700">Logout</span>
+              <span className="hidden sm:inline text-sm font-medium group-hover:text-blue-700">
+                Logout
+              </span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5"

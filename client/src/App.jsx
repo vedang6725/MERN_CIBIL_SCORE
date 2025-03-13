@@ -12,6 +12,8 @@ import Dashboard from "./components/user-view/dashboard";
 import AdminPanel from "./components/admin-view/AdminPanel";
 import LoanInformation from "./components/user-view/LoanInformation";
 import AdminLogin from "./components/admin-view/AdminLogin";
+import B2BDashboard from "./components/business-view/B2BDashboard";
+import CreditScoreDashboard from "./components/business-view/B2BDashboard";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(
@@ -55,6 +57,15 @@ function App() {
             isAuthenticated ? <AdminPanel /> : <Navigate to="/admin-login" />
           }
         />
+
+<Route
+          path="/business-dashboard"
+          element={
+            isAuthenticated ? <B2BDashboard /> : <Navigate to="/admin-login" />
+          }
+        />
+
+
 
         {/* 404 Not Found Page */}
         <Route
