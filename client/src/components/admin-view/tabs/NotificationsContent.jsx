@@ -1,191 +1,124 @@
 import React, { useState } from 'react';
-import { useNotifications } from '../../../context/NotificationsContext';
+import axios from 'axios';
+import { io } from 'socket.io-client';
 
-const NotificationsContent = () => {
-  const { addNotification, notifications } = useNotifications();
-  const [subject, setSubject] = useState('');
+const socket = io('http://localhost:3001');
+
+function NotificationsContent() {
   const [message, setMessage] = useState('');
-  const [recipient, setRecipient] = useState('all');
-  const [sendVia, setSendVia] = useState({
-    email: true,
-    inApp: true,
-    sms: false
-  });
-  const [scheduleType, setScheduleType] = useState('immediate');
+  const [sender, setSender] = useState('');
+  const [status, setStatus] = useState('');
 
-  const handleSendNotification = () => {
-    // Validate form
-    if (!subject.trim() || !message.trim()) {
-      alert('Please enter both subject and message');
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    if (!message || !sender) {
+      setStatus('Please fill in all fields');
       return;
     }
-
-    // Create notification object
-    const notification = {
-      subject,
-      message,
-      recipient,
-      sendVia,
-      scheduleType
-    };
-
-    // Add to context
-    addNotification(notification);
     
-    // Display success message
-    alert('Notification sent successfully!');
-
-    // Reset form
-    setSubject('');
-    setMessage('');
+    try {
+      // Send to API
+      await axios.post('http://localhost:3001/api/messages', {
+        content: message,
+        sender
+      });
+      
+      // Emit socket event
+      socket.emit('new_message', {
+        content: message,
+        sender
+      });
+      
+      // Reset form
+      setMessage('');
+      setStatus('Message sent successfully!');
+      
+      // Clear status after 3 seconds
+      setTimeout(() => {
+        setStatus('');
+      }, 3000);
+      
+    } catch (error) {
+      setStatus(`Error: ${error.response?.data?.message || error.message}`);
+    }
   };
-
-  const handleSendViaChange = (key) => {
-    setSendVia(prev => ({
-      ...prev,
-      [key]: !prev[key]
-    }));
-  };
-
+  
   return (
-    <div className="bg-white rounded-lg shadow p-6">
-      <h2 className="text-lg font-semibold mb-4">Send Notification</h2>
-      <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Recipient</label>
-          <select 
-            className="w-full p-2 border border-gray-300 rounded-md"
-            value={recipient}
-            onChange={(e) => setRecipient(e.target.value)}
-          >
-            <option value="all">All Users</option>
-            <option value="subscribers">All Subscribers</option>
-            <option value="free">Free Users</option>
-            <option value="inactive">Inactive Users</option>
-          </select>
+    <div className="bg-white shadow-lg rounded-lg p-6 max-w-2xl mx-auto">
+      <div className="mb-6">
+        <h2 className="text-2xl font-semibold text-gray-800">Broadcast Message</h2>
+        <p className="text-sm text-gray-500">Send notifications to all connected users</p>
+      </div>
+      
+      {status && (
+        <div className={`mb-6 p-4 rounded-md ${
+          status.includes('Error') 
+            ? 'bg-red-50 text-red-700 border-l-4 border-red-500' 
+            : 'bg-green-50 text-green-700 border-l-4 border-green-500'
+        }`}>
+          <div className="flex items-center">
+            <div className="flex-shrink-0">
+              {status.includes('Error') ? (
+                <svg className="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                </svg>
+              ) : (
+                <svg className="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                </svg>
+              )}
+            </div>
+            <div className="ml-3">
+              <p className="text-sm font-medium">{status}</p>
+            </div>
+          </div>
         </div>
+      )}
+      
+      <form onSubmit={handleSubmit} className="space-y-6">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Subject</label>
+          <label htmlFor="sender" className="block text-sm font-medium text-gray-700 mb-1">
+            Sender Name
+          </label>
           <input 
             type="text" 
-            className="w-full p-2 border border-gray-300 rounded-md" 
-            placeholder="Notification subject" 
-            value={subject}
-            onChange={(e) => setSubject(e.target.value)}
+            id="sender" 
+            value={sender} 
+            onChange={(e) => setSender(e.target.value)}
+            placeholder="Admin Notification"
+            className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
           />
         </div>
+        
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Message</label>
+          <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
+            Message Content
+          </label>
           <textarea 
-            className="w-full p-2 border border-gray-300 rounded-md h-32" 
-            placeholder="Type your notification message here..."
-            value={message}
+            id="message" 
+            value={message} 
             onChange={(e) => setMessage(e.target.value)}
-          ></textarea>
+            placeholder="Type your notification message here..."
+            rows="4"
+            className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+          />
         </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Send via</label>
-          <div className="flex space-x-4">
-            <label className="flex items-center">
-              <input 
-                type="checkbox" 
-                className="mr-2" 
-                checked={sendVia.email} 
-                onChange={() => handleSendViaChange('email')}
-              />
-              Email
-            </label>
-            <label className="flex items-center">
-              <input 
-                type="checkbox" 
-                className="mr-2" 
-                checked={sendVia.inApp} 
-                onChange={() => handleSendViaChange('inApp')}
-              />
-              In-app
-            </label>
-            <label className="flex items-center">
-              <input 
-                type="checkbox" 
-                className="mr-2" 
-                checked={sendVia.sms} 
-                onChange={() => handleSendViaChange('sms')}
-              />
-              SMS
-            </label>
-          </div>
+        
+        <div className="flex items-center justify-end">
+          <button 
+            type="submit"
+            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          >
+            <svg className="mr-2 h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
+            </svg>
+            Broadcast Message
+          </button>
         </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Schedule</label>
-          <div className="flex space-x-4">
-            <label className="flex items-center">
-              <input 
-                type="radio" 
-                name="schedule" 
-                className="mr-2" 
-                checked={scheduleType === 'immediate'} 
-                onChange={() => setScheduleType('immediate')}
-              />
-              Send immediately
-            </label>
-            <label className="flex items-center">
-              <input 
-                type="radio" 
-                name="schedule" 
-                className="mr-2" 
-                checked={scheduleType === 'scheduled'} 
-                onChange={() => setScheduleType('scheduled')}
-              />
-              Schedule for later
-            </label>
-          </div>
-        </div>
-        <button 
-          type="button" 
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors"
-          onClick={handleSendNotification}
-        >
-          Send Notification
-        </button>
       </form>
-      
-      <div className="mt-8">
-        <h3 className="text-lg font-semibold mb-4">Recent Notifications</h3>
-        {notifications.length === 0 ? (
-          <p className="text-gray-500">No notifications sent yet.</p>
-        ) : (
-          <div className="space-y-3">
-            {notifications.map((notif) => (
-              <div key={notif.id} className="p-3 bg-gray-50 rounded-md border">
-                <div className="flex justify-between">
-                  <h4 className="font-medium">{notif.subject}</h4>
-                  <span className="text-xs text-gray-500">
-                    {new Date(notif.timestamp).toLocaleString()}
-                  </span>
-                </div>
-                <p className="text-gray-700 mt-1">{notif.message}</p>
-                <div className="mt-2 flex flex-wrap gap-1">
-                  {notif.sendVia.email && (
-                    <span className="text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded">Email</span>
-                  )}
-                  {notif.sendVia.inApp && (
-                    <span className="text-xs bg-green-100 text-green-800 px-2 py-0.5 rounded">In-app</span>
-                  )}
-                  {notif.sendVia.sms && (
-                    <span className="text-xs bg-purple-100 text-purple-800 px-2 py-0.5 rounded">SMS</span>
-                  )}
-                  <span className="text-xs bg-gray-100 text-gray-800 px-2 py-0.5 rounded">
-                    To: {notif.recipient}
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
     </div>
   );
-};
+}
 
-// Add this export default statement
 export default NotificationsContent;
