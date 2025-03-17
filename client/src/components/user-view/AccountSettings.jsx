@@ -16,7 +16,7 @@ const AccountSettings = ({ user }) => {
     e.preventDefault();
     setIsSubmitting(true);
     setSuccessMessage("");
-    
+
     try {
       const res = await axios.post("http://localhost:3001/profile/update", formData);
       setSuccessMessage(res.data.message || "Profile updated successfully!");
@@ -40,7 +40,7 @@ const AccountSettings = ({ user }) => {
       <div className="bg-white rounded-2xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl">
         <div className="p-8">
           <h2 className="text-2xl font-semibold text-slate-900 mb-6">Personal Information</h2>
-          
+
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Full Name */}
@@ -90,6 +90,18 @@ const AccountSettings = ({ user }) => {
                   className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-slate-50"
                 />
               </div>
+
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-2">Credit Score</label>
+                <input
+                  type="number"
+                  name="creditScore"
+                  value={formData.creditScore || ""}
+                  onChange={handleChange}
+                  className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-slate-50"
+                />
+              </div>
+
             </div>
 
             {/* Success message */}
@@ -106,7 +118,7 @@ const AccountSettings = ({ user }) => {
       <div className="bg-white rounded-2xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl">
         <div className="p-8">
           <h2 className="text-2xl font-semibold text-slate-900 mb-6">ID Verification</h2>
-          
+
           <div className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* PAN Number */}
@@ -149,7 +161,7 @@ const AccountSettings = ({ user }) => {
       <div className="bg-white rounded-2xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl">
         <div className="p-8">
           <h2 className="text-2xl font-semibold text-slate-900 mb-6">Address Information</h2>
-          
+
           <div className="space-y-6">
             <div className="grid grid-cols-1 gap-6">
               {/* Street Address */}

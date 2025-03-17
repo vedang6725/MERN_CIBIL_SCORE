@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const UserInput = () => {
@@ -11,24 +11,14 @@ const UserInput = () => {
   });
   const [error, setError] = useState("");
 
-  useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("user"));
-    if (user) {
-      setFormData((prevData) => ({
-        ...prevData,
-        name: user.name,
-      }));
-    }
-  }, []);
-
   const handleSubmit = (e) => {
     e.preventDefault();
     setError("");
-    
+
     // Store data in localStorage (optional for future use)
     localStorage.setItem("userInput", JSON.stringify(formData));
-    
-    // Navigate to dashboard
+
+    // Navigate to loan page
     navigate("/loan");
   };
 
@@ -50,19 +40,26 @@ const UserInput = () => {
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-4">
             <div className="relative">
-              <label className="text-white text-sm font-medium mb-1 block">Full Name</label>
+              <label className="text-white text-sm font-medium mb-1 block">
+                Full Name
+              </label>
               <input
                 type="text"
+                name="name"
+                placeholder="Enter full name"
                 value={formData.name}
-                readOnly
-                className="w-full bg-white/20 backdrop-blur-md p-3 rounded-xl text-white outline-none focus:ring-2 focus:ring-blue-300 transition-all"
+                onChange={handleChange}
+                className="w-full bg-white/20 backdrop-blur-md p-3 rounded-xl text-white outline-none placeholder-white/70 focus:ring-2 focus:ring-blue-300 transition-all"
+                required
               />
             </div>
           </div>
 
           <div className="space-y-4">
             <div className="relative">
-              <label className="text-white text-sm font-medium mb-1 block">Mobile No</label>
+              <label className="text-white text-sm font-medium mb-1 block">
+                Mobile No
+              </label>
               <input
                 type="text"
                 name="mobile"
@@ -75,7 +72,9 @@ const UserInput = () => {
             </div>
 
             <div className="relative">
-              <label className="text-white text-sm font-medium mb-1 block">Date of Birth</label>
+              <label className="text-white text-sm font-medium mb-1 block">
+                Date of Birth
+              </label>
               <input
                 type="date"
                 name="dob"
@@ -87,7 +86,9 @@ const UserInput = () => {
             </div>
 
             <div className="relative">
-              <label className="text-white text-sm font-medium mb-1 block">PAN Card</label>
+              <label className="text-white text-sm font-medium mb-1 block">
+                PAN Card
+              </label>
               <input
                 type="text"
                 name="pan"

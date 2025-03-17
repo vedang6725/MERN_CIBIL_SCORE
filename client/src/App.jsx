@@ -4,11 +4,12 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-import { useState, useEffect } from "react";
-import Login from "./pages/auth/login";
-import Signup from "./pages/auth/register";
+import { useState } from "react";
+import Layout from "./pages/auth/Layout"; // Import Layout
+import Login from "./pages/auth/Login";
+import Signup from "./pages/auth/Register";
 import UserInput from "./pages/auth/UserInput";
-import Dashboard from "./components/user-view/dashboard";
+import Dashboard from "./components/user-view/Dashboard";
 import AdminPanel from "./components/admin-view/AdminPanel";
 import LoanInformation from "./components/user-view/LoanInformation";
 import AdminLogin from "./components/admin-view/AdminLogin";
@@ -18,7 +19,6 @@ function App() {
     !!localStorage.getItem("token")
   );
 
-  // Function to update authentication status
   const updateAuth = () => {
     setIsAuthenticated(!!localStorage.getItem("token"));
   };
@@ -26,16 +26,18 @@ function App() {
   return (
     <Router>
       <Routes>
-        {/* Always show Login page first */}
-        <Route path="/" element={<Login updateAuth={updateAuth} />} />
+        {/* Routes with Navbar & Footer */}
+        <Route element={<Layout />}>
+          <Route path="/login" element={<Login updateAuth={updateAuth} />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/userinput" element={<UserInput />} />
 
-        {/* Authentication Routes */}
-        <Route path="/login" element={<Login updateAuth={updateAuth} />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/userinput" element={<UserInput />} />
-        <Route path="/loan" element={<LoanInformation />} />
-        <Route path="/admin" element={<AdminPanel />} />
-        <Route path="/admin-login" element={<AdminLogin />} />
+          {/* Other Routes without Navbar & Footer */}
+          <Route path="/" element={<Login updateAuth={updateAuth} />} />
+          <Route path="/loan" element={<LoanInformation />} />
+          <Route path="/admin-login" element={<AdminLogin />} />
+        </Route>
+        
         {/* Protected Dashboard Route */}
         <Route
           path="/dashboard"
@@ -47,8 +49,6 @@ function App() {
             )
           }
         />
-
-        {/* Admin Panel Route - Fixed path and added authentication */}
         <Route
           path="/admin"
           element={

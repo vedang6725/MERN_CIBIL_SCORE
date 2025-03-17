@@ -63,8 +63,7 @@ const Signup = () => {
               <span className="text-2xl font-extrabold text-white">NPE</span>
             </div>
           </div>
-          <h1 className="mt-6 text-4xl font-extrabold tracking-tight text-white">DBNPE</h1>
-          <p className="mt-2 text-sm text-indigo-300 font-medium">Empowering Your Financial Future</p>
+          <h1 className="mt-6 text-4xl font-extrabold tracking-tight text-white">  Welcome to DBNPAY! 👋</h1>
         </div>
 
         {/* Main Card */}
