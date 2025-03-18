@@ -18,7 +18,10 @@ const AccountSettings = ({ user }) => {
     setSuccessMessage("");
 
     try {
-      const res = await axios.post("http://localhost:3001/profile/update", formData);
+      const res = await axios.post(
+        "http://localhost:3001/profile/update",
+        formData
+      );
       setSuccessMessage(res.data.message || "Profile updated successfully!");
       setTimeout(() => setSuccessMessage(""), 5000);
     } catch (error) {
@@ -32,76 +35,91 @@ const AccountSettings = ({ user }) => {
   return (
     <div className="space-y-8">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-slate-900 mb-2">Profile Settings</h1>
-        <p className="text-slate-600 text-lg">Update your personal information and account details.</p>
+        <h1 className="text-3xl font-bold text-slate-900 mb-2">
+          Profile Settings
+        </h1>
+        <p className="text-slate-600 text-lg">
+          Update your personal information and account details.
+        </p>
       </div>
 
       {/* Personal Information */}
-      <div className="bg-white rounded-2xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl">
+      <div className="bg-slate-900/50 rounded-2xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl">
         <div className="p-8">
-          <h2 className="text-2xl font-semibold text-slate-900 mb-6">Personal Information</h2>
+          <h2 className="text-2xl font-semibold text-slate-900 mb-6">
+            Personal Information
+          </h2>
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Full Name */}
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">Full Name</label>
+                <label className="block text-sm font-medium text-slate-700 mb-2">
+                  Full Name
+                </label>
                 <input
                   type="text"
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
-                  className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-slate-50"
+                  className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-slate-900"
                 />
               </div>
 
               {/* Email Address */}
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">Email Address</label>
+                <label className="block text-sm font-medium text-slate-700 mb-2">
+                  Email Address
+                </label>
                 <input
                   type="email"
                   name="email"
                   value={formData.email}
-                  className="w-full p-3 border border-slate-300 rounded-lg bg-slate-100 cursor-not-allowed"
+                  className="w-full p-3 border border-slate-300 rounded-lg bg-slate-900 cursor-not-allowed"
                   disabled
                 />
               </div>
 
               {/* Phone Number */}
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">Phone Number</label>
+                <label className="block text-sm font-medium text-slate-700 mb-2">
+                  Phone Number
+                </label>
                 <input
                   type="tel"
                   name="phoneNumber"
                   value={formData.phoneNumber}
                   onChange={handleChange}
-                  className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-slate-50"
+                  className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-slate-900"
                 />
               </div>
 
               {/* Date of Birth */}
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">Date of Birth</label>
+                <label className="block text-sm font-medium text-slate-700 mb-2">
+                  Date of Birth
+                </label>
                 <input
                   type="date"
                   name="dob"
                   value={formData.dob}
                   onChange={handleChange}
-                  className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-slate-50"
+                  className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-slate-900"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">Credit Score</label>
+                <label className="block text-sm font-medium text-slate-700 mb-2">
+                  Credit Score
+                </label>
                 <input
                   type="number"
                   name="creditScore"
                   value={formData.creditScore || ""}
                   onChange={handleChange}
-                  className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-slate-50"
+                  className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-slate-900"
                 />
               </div>
-
             </div>
 
             {/* Success message */}
@@ -115,33 +133,39 @@ const AccountSettings = ({ user }) => {
       </div>
 
       {/* ID Verification */}
-      <div className="bg-white rounded-2xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl">
+      <div className="bg-slate-900/50 rounded-2xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl">
         <div className="p-8">
-          <h2 className="text-2xl font-semibold text-slate-900 mb-6">ID Verification</h2>
+          <h2 className="text-2xl font-semibold text-slate-900 mb-6">
+            ID Verification
+          </h2>
 
           <div className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* PAN Number */}
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">PAN Number</label>
+                <label className="block text-sm font-medium text-slate-700 mb-2">
+                  PAN Number
+                </label>
                 <input
                   type="text"
                   name="pan"
                   value={formData.pan}
                   onChange={handleChange}
-                  className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-slate-50"
+                  className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-slate-900"
                 />
               </div>
 
               {/* Aadhar Number */}
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">Aadhar Number</label>
+                <label className="block text-sm font-medium text-slate-700 mb-2">
+                  Aadhar Number
+                </label>
                 <input
                   type="text"
                   name="aadhar"
                   value={formData.aadhar || ""}
                   onChange={handleChange}
-                  className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-slate-50"
+                  className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-slate-900"
                 />
               </div>
             </div>
@@ -150,7 +174,11 @@ const AccountSettings = ({ user }) => {
               <div className="mr-4 text-indigo-600 text-xl mt-1">🔒</div>
               <div>
                 <h3 className="font-medium text-slate-900 mb-1">ID Security</h3>
-                <p className="text-slate-600">Your ID documents are encrypted and securely stored. We use this information only for verification purposes as required by regulations.</p>
+                <p className="text-slate-600">
+                  Your ID documents are encrypted and securely stored. We use
+                  this information only for verification purposes as required by
+                  regulations.
+                </p>
               </div>
             </div>
           </div>
@@ -158,58 +186,68 @@ const AccountSettings = ({ user }) => {
       </div>
 
       {/* Address Information */}
-      <div className="bg-white rounded-2xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl">
+      <div className="bg-slate-900/50 rounded-2xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl">
         <div className="p-8">
-          <h2 className="text-2xl font-semibold text-slate-900 mb-6">Address Information</h2>
+          <h2 className="text-2xl font-semibold text-slate-900 mb-6">
+            Address Information
+          </h2>
 
           <div className="space-y-6">
             <div className="grid grid-cols-1 gap-6">
               {/* Street Address */}
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">Street Address</label>
+                <label className="block text-sm font-medium text-slate-700 mb-2">
+                  Street Address
+                </label>
                 <input
                   type="text"
                   name="address"
                   value={formData.address || ""}
                   onChange={handleChange}
-                  className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-slate-50"
+                  className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-slate-900"
                 />
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {/* City */}
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">City</label>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">
+                    City
+                  </label>
                   <input
                     type="text"
                     name="city"
                     value={formData.city || ""}
                     onChange={handleChange}
-                    className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-slate-50"
+                    className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-slate-900"
                   />
                 </div>
 
                 {/* State */}
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">State</label>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">
+                    State
+                  </label>
                   <input
                     type="text"
                     name="state"
                     value={formData.state || ""}
                     onChange={handleChange}
-                    className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-slate-50"
+                    className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-slate-900"
                   />
                 </div>
 
                 {/* PIN Code */}
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">PIN Code</label>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">
+                    PIN Code
+                  </label>
                   <input
                     type="text"
                     name="pincode"
                     value={formData.pincode || ""}
                     onChange={handleChange}
-                    className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-slate-50"
+                    className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-slate-900"
                   />
                 </div>
               </div>
@@ -224,9 +262,9 @@ const AccountSettings = ({ user }) => {
           type="submit"
           onClick={handleSubmit}
           disabled={isSubmitting}
-          className="px-8 py-3 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition-colors duration-300 shadow-md disabled:opacity-70 disabled:cursor-not-allowed"
+          className="px-5 py-5 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl text-sm font-medium transition-all duration-300 hover:shadow-lg hover:shadow-indigo-900/30 flex items-center group"
         >
-          {isSubmitting ? 'Saving Changes...' : 'Save Profile Changes'}
+          {isSubmitting ? "Saving Changes..." : "Save Profile Changes"}
         </button>
       </div>
     </div>
