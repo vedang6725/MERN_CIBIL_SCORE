@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { BellIcon, UserIcon, CreditCardIcon, ChartBarIcon, LogOutIcon, PlusIcon, UsersIcon, TrashIcon, EditIcon, BellRingIcon } from 'lucide-react';
-
-import SidebarLink from './SidebarLink';
+import SidebarLink from "../SideBarLink";
 import DashboardContent from './tabs/DashboardContent';
 import UsersContent from './tabs/UsersContent';
 import SubscriptionsContent from './tabs/SubscriptionsContent';
@@ -53,7 +52,7 @@ const AdminPanel = () => {
           Credit Builder Admin
         </div>
         <nav className="mt-4">
-          <SidebarLink 
+          <SidebarLink
             icon={<ChartBarIcon size={20} />} 
             title="Dashboard" 
             active={activeTab === 'dashboard'} 
