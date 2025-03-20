@@ -5,7 +5,7 @@ import DashboardContent from './tabs/DashboardContent';
 import UsersContent from './tabs/UsersContent';
 import SubscriptionsContent from './tabs/SubscriptionsContent';
 import NotificationsContent from './tabs/NotificationsContent';
-import SidebarLink from '@/components/admin-view/tabs/SidebarLink.jsx';
+import SidebarLink from './SidebarLink.jsx';
 
 const AdminPanel = () => {
   const [activeTab, setActiveTab] = useState('dashboard');
