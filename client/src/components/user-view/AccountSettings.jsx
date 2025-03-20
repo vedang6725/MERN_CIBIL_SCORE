@@ -75,8 +75,7 @@ const AccountSettings = ({ user }) => {
                   type="email"
                   name="email"
                   value={formData.email}
-                  className="w-full p-3 border border-slate-300 rounded-lg bg-slate-900 cursor-not-allowed"
-                  disabled
+                  className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 bg-slate-900"
                 />
               </div>
 

@@ -5,6 +5,7 @@ const UserInput = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
+    email: "",
     mobile: "",
     pan: "",
     dob: "",
@@ -15,11 +16,20 @@ const UserInput = () => {
     e.preventDefault();
     setError("");
 
-    // Store data in localStorage (optional for future use)
+    // Store user details in localStorage
+    const userData = {
+      name: formData.name,
+      email: formData.email,
+    };
+
+    localStorage.setItem("user", JSON.stringify(userData)); // Ensure Dashboard gets updated user
     localStorage.setItem("userInput", JSON.stringify(formData));
 
     // Navigate to loan page
     navigate("/loan");
+
+    // Notify Dashboard to update
+    window.dispatchEvent(new Event("storage"));
   };
 
   const handleChange = (e) => {

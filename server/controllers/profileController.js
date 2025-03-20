@@ -10,6 +10,7 @@ export const updateUserProfile = async (req, res) => {
     if (user) {
       // Update existing profile
       user.name = name;
+      user.email=email;
       user.phoneNumber = phoneNumber;
       user.pan = pan;
       user.aadhar = aadhar;

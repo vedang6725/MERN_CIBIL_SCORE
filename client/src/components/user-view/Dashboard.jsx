@@ -11,34 +11,48 @@ const Dashboard = ({ updateAuth }) => {
   const [user, setUser] = useState(null);
   const [activeTab, setActiveTab] = useState("overview");
 
-  useEffect(() => {
+  const fetchUserData = () => {
     const token = localStorage.getItem("token");
     if (!token) {
       navigate("/login");
-    } else {
-      // Get combined data from localStorage
-      const dashboardData = JSON.parse(localStorage.getItem("dashboardData"));
-      const userData = JSON.parse(localStorage.getItem("user"));
-
-      if (!dashboardData) {
-        navigate("/loan-information");
-        return;
-      }
-
-      setUser({
-        name: userData.name,
-        email: userData.email,
-        creditScore: dashboardData.creditScore,
-        subscribedPlan: "Premium",
-        subscriptionDate: "January 15, 2025",
-        nextBillingDate: "February 15, 2025",
-        phoneNumber: dashboardData.mobile || "+91 9876543210",
-        pan: dashboardData.pan,
-        dob: dashboardData.dob,
-        loanInfo: dashboardData.loanInfo,
-      });
+      return;
     }
-  }, [navigate]);
+
+    const dashboardData = JSON.parse(localStorage.getItem("dashboardData"));
+    const userData = JSON.parse(localStorage.getItem("user"));
+
+    if (!dashboardData || !userData) {
+      navigate("/loan-information");
+      return;
+    }
+
+    setUser({
+      name: userData.name,
+      email: userData.email,
+      creditScore: dashboardData.creditScore,
+      subscribedPlan: "Premium",
+      subscriptionDate: "January 15, 2025",
+      nextBillingDate: "February 15, 2025",
+      phoneNumber: dashboardData.mobile || "+91 9876543210",
+      pan: dashboardData.pan,
+      dob: dashboardData.dob,
+      loanInfo: dashboardData.loanInfo,
+    });
+  };
+
+  useEffect(() => {
+    fetchUserData();
+
+    // Listen for changes in localStorage (for new signup)
+    const handleStorageChange = () => {
+      fetchUserData();
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, []);
 
   if (!user) {
     return (
@@ -55,9 +69,12 @@ const Dashboard = ({ updateAuth }) => {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("user");  // Clear user data
+    localStorage.removeItem("dashboardData"); // Clear dashboard data
     updateAuth();
     navigate("/login");
   };
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-800 text-white">

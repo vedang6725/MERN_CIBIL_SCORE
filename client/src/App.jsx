@@ -6,7 +6,7 @@ import {
 } from "react-router-dom";
 import { useState } from "react";
 import Layout from "./pages/auth/Layout"; // Import Layout
-import Login from "./pages/auth/Login";
+import Login from "./pages/auth/login";
 import Signup from "./pages/auth/Register";
 import UserInput from "./pages/auth/UserInput";
 import Dashboard from "./components/user-view/Dashboard";
