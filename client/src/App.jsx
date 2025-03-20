@@ -7,7 +7,7 @@ import {
 import { useState } from "react";
 import Layout from "./pages/auth/Layout"; // Import Layout
 import Login from "./pages/auth/login";
-import Signup from "./pages/auth/Register";
+import Signup from "./pages/auth/register";
 import UserInput from "./pages/auth/UserInput";
 import Dashboard from "./components/user-view/Dashboard";
 import AdminPanel from "./components/admin-view/AdminPanel";
