@@ -1,35 +1,45 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const UserInput = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
-    email: "",
     mobile: "",
     pan: "",
     dob: "",
   });
   const [error, setError] = useState("");
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    // Get user data from localStorage
+    const userData = JSON.parse(localStorage.getItem("user"));
+    if (!userData) {
+      navigate("/login");
+      return;
+    }
+    
+    setUser(userData);
+    
+    // Pre-fill name if available
+    if (userData.name) {
+      setFormData(prev => ({
+        ...prev,
+        name: userData.name
+      }));
+    }
+  }, [navigate]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setError("");
 
-    // Store user details in localStorage
-    const userData = {
-      name: formData.name,
-      email: formData.email,
-    };
-
-    localStorage.setItem("user", JSON.stringify(userData)); // Ensure Dashboard gets updated user
-    localStorage.setItem("userInput", JSON.stringify(formData));
+    // Store user input data with user ID as part of the key
+    localStorage.setItem(`userInput_${user._id}`, JSON.stringify(formData));
 
     // Navigate to loan page
     navigate("/loan");
-
-    // Notify Dashboard to update
-    window.dispatchEvent(new Event("storage"));
   };
 
   const handleChange = (e) => {
@@ -39,7 +49,6 @@ const UserInput = () => {
       [name]: value,
     }));
   };
-
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-600 to-purple-700 p-4">
       <div className="bg-white/15 backdrop-blur-xl p-8 rounded-3xl shadow-2xl w-full max-w-md border border-white/20 animate-fadeIn">

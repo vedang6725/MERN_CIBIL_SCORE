@@ -18,7 +18,7 @@ const PORT = process.env.PORT || 3001;
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: ["http://localhost:3000", "http://localhost:5173"],
     methods: ["GET", "POST"],
   }
 });
@@ -63,6 +63,7 @@ app.use('/api/notifications', notification);
 app.get('/', (req, res) => {
   res.send('Notification API is running');
 });
+
 
 // Start Server
 app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));

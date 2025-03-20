@@ -15,7 +15,6 @@ import LoanInformation from "./components/user-view/LoanInformation";
 import AdminLogin from "./components/admin-view/AdminLogin";
 import B2BDashboard from "./components/business-view/B2BDashboard";
 
-
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(
     !!localStorage.getItem("token")
@@ -39,7 +38,7 @@ function App() {
           <Route path="/loan" element={<LoanInformation />} />
           <Route path="/admin-login" element={<AdminLogin />} />
         </Route>
-        
+
         {/* Protected Dashboard Route */}
         <Route
           path="/dashboard"
@@ -58,14 +57,12 @@ function App() {
           }
         />
 
-<Route
+        <Route
           path="/business-dashboard"
           element={
             isAuthenticated ? <B2BDashboard /> : <Navigate to="/admin-login" />
           }
         />
-
-
 
         {/* 404 Not Found Page */}
         <Route
