@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { BellIcon, UserIcon, CreditCardIcon, ChartBarIcon, LogOutIcon, PlusIcon, UsersIcon, TrashIcon, EditIcon, BellRingIcon } from 'lucide-react';
-import SidebarLink from "../SideBarLink";
+import SidebarLink from './SidebarLink';
 import DashboardContent from './tabs/DashboardContent';
 import UsersContent from './tabs/UsersContent';
 import SubscriptionsContent from './tabs/SubscriptionsContent';
